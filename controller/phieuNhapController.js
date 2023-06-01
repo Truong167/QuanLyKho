@@ -12,24 +12,24 @@ class phieuNhapController {
                 include: [
                     {
                         model: db.NhaCungCap,
-                        attributes: ["TenNhaCC"]
+                        attributes: {exclude: ['createdAt', 'updatedAt']}
                     },
                     {
                         model: db.NhanVien,
-                        attributes: ["Ho", "Ten"]
+                        attributes: {exclude: ['createdAt', 'updatedAt']}
                     }
                 ],
                 attributes: ["MaDonDH", "NgayDatHang"]
             })
             if(order && order.length > 0){
-                order.map(item => {
-                    item.dataValues.TenNhaCC = item.dataValues.NhaCungCap.dataValues.TenNhaCC
-                    item.dataValues.Ho = item.dataValues.NhanVien.dataValues.Ho
-                    item.dataValues.Ten = item.dataValues.NhanVien.dataValues.Ten
-                    delete item.dataValues["NhaCungCap"]
-                    delete item.dataValues["NhanVien"]
-                    return item
-                })
+                // order.map(item => {
+                //     item.dataValues.TenNhaCC = item.dataValues.NhaCungCap.dataValues.TenNhaCC
+                //     item.dataValues.Ho = item.dataValues.NhanVien.dataValues.Ho
+                //     item.dataValues.Ten = item.dataValues.NhanVien.dataValues.Ten
+                //     delete item.dataValues["NhaCungCap"]
+                //     delete item.dataValues["NhanVien"]
+                //     return item
+                // })
                 return res.status(200).json({
                     success: true,
                     message: 'Successfully get data',
