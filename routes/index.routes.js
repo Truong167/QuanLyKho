@@ -10,7 +10,7 @@ const phieuNhapRouter = require('./phieuNhap.routes')
 
 function routes(app){
 
-    app.use('/api/v1/phieuNhap', phieuNhapRouter)
+    app.use('/api/v1/order', phieuNhapRouter)
 
     app.use('/', (req, res) => {res.send({ message: 'Đây là Quản lý kho Web Services' })});
 }
