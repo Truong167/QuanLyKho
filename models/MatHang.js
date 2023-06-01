@@ -12,7 +12,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-
+      MatHang.belongsTo(models.LoaiHang, {foreignKey: "MaLoaiHang"})
+      MatHang.belongsTo(models.NhaCungCap, {foreignKey: "MaNhaCC"})
     }
   }
   MatHang.init({
@@ -32,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     NoiSx: DataTypes.STRING,
     isActive: DataTypes.BOOLEAN,
     MaLoaiHang: DataTypes.INTEGER,
-    MaNhaCungCap: DataTypes.INTEGER
+    MaNhaCC: DataTypes.INTEGER
   }, {
     sequelize,
     freezeTableName: true,

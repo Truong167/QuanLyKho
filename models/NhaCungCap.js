@@ -12,6 +12,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      NhaCungCap.hasMany(models.MatHang, {foreignKey: 'MaNhaCC'})
+      NhaCungCap.hasMany(models.DonDatHang, {foreignKey: 'MaNhaCC'})
+
     }
   }
   NhaCungCap.init({

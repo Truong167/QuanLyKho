@@ -12,8 +12,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      QuanLy.belongsTo(models.Recipe, {foreignKey: 'recipeId'})
-      QuanLy.belongsTo(models.User, {foreignKey: 'userId'})
+
 
     }
   }

@@ -12,13 +12,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      LoaiHang.belongsTo(models.User, {foreignKey: 'userId'});
-      LoaiHang.hasMany(models.Step, {foreignKey: 'LoaiHangId'});
-      LoaiHang.hasMany(models.DetailIngredient, {foreignKey: 'LoaiHangId'});
-      LoaiHang.hasMany(models.DetailList, {foreignKey: 'LoaiHangId'});
-      LoaiHang.hasMany(models.Favorite, {foreignKey: 'LoaiHangId'});
-      // LoaiHang.hasMany(models.Comment, {foreignKey: 'LoaiHangId'});
-      // LoaiHang.belongsToMany(models.IngredientTag, {through: models.LoaiHangTag})
+     LoaiHang.hasMany(models.MatHang, {foreignKey: 'MaLoaiHang'})
     }
   }
   LoaiHang.init({
