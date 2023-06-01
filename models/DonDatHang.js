@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       DonDatHang.belongsTo(models.NhanVien, {foreignKey: 'MaNhanVien'})
       DonDatHang.belongsTo(models.NhaCungCap, {foreignKey: 'MaNhaCC'})
       DonDatHang.hasMany(models.ChiTietDonDatHang, {foreignKey: 'MaDonDH'})
-
+      DonDatHang.hasOne(models.PhieuNhap, {foreignKey: 'MaDonDH'})
     }
   }
   DonDatHang.init({

@@ -13,6 +13,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       PhieuNhap.belongsTo(models.NhanVien, {foreignKey: 'MaNhanVien'})
       PhieuNhap.hasMany(models.ChiTietPhieuNhap, {foreignKey: 'MaPhieuNhap'})
+      PhieuNhap.belongsTo(models.DonDatHang, {foreignKey: 'MaDonDH'})
+      PhieuNhap.hasOne(models.HoaDonNhap, {foreignKey: 'MaPhieuNhap'})
     }
   }
   PhieuNhap.init({

@@ -162,28 +162,41 @@ class phieuNhapController {
 
     createBill = async (req, res) => {
         const {id} = req.params
+        const {Thue} = req.body
         try {
             const receipt = await db.PhieuNhap.findByPk(id, {
                 include: [
                     {
-                        model: db.ChiTietPhieuNhap
+                        model: db.ChiTietPhieuNhap,
+                        attributes: {exclude: ["createdAt", "updatedAt"]}
 
                     },
                     {
-                        model: db.DonDatHang
+                        model: db.DonDatHang,
+                        attributes: ["MaNhaCC"]
                     }
                 ]
             })
-            console.log(receipt)
+            let ThanhTien = 0
+            receipt.dataValues.ChiTietPhieuNhaps.map(item => {
+                ThanhTien += item.dataValues.SoLuong * item.dataValues.DonGia
+            })
+
+            let bill = await db.HoaDonNhap.create({
+                ThanhTien: ThanhTien,
+                Thue: Thue,
+                MaPhieuNhap: id,
+                MaNhaCC: receipt.DonDatHang.MaNhaCC
+            })
             res.status(200).json({
                 success: true, 
                 message: 'Successfully added',
-                data: receipt
+                data: bill
             })
         } catch (error) {
             res.status(500).json({
                 success: false, 
-                message: error.message, 
+                message: error, 
                 data: ""
             })
         }
