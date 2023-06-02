@@ -15,6 +15,7 @@ router.get('/', phieuNhapController.index)
 router.get('/getAllOrder', phieuNhapController.getAllOrder)
 router.get('/getDetailOrder/:id', phieuNhapController.getDetailOrder)
 router.get('/getItemsBySupplier/:id', phieuNhapController.getItemsBySupplier)
+router.get('/getOrderWithoutBill', phieuNhapController.getOrderWithoutBill)
 
 
 router.post('/createReceipt/:id', verifyTokenStoker, phieuNhapController.createReceipt)

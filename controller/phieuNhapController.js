@@ -1,9 +1,51 @@
 const {sequelize} = require('../models/index')
 const db = require('../models/index')
+const Sequelize = require('sequelize')
+const { Op } = Sequelize
 
 class phieuNhapController {
     index = (req, res) => {
         res.send('Phiếu nhập')
+    }
+
+    getOrderWithoutBill = async (req, res) => {
+        try {
+            const bill = await db.HoaDonNhap.findAll()
+            let MaPhieuNhap = bill.map(item => {
+                return item.dataValues.MaPhieuNhap
+            })
+            const order = await db.PhieuNhap.findAll({
+                where: {
+                    [Op.and]: [
+                        {
+                            MaPhieuNhap: {
+                                [Op.notIn]: MaPhieuNhap
+                            },
+                            TrangThai: true
+                        }
+                    ]
+                }
+            })
+            if(order && order.length > 0){
+                return res.status(200).json({
+                    success: true,
+                    message: 'Successfully get data',
+                    data: order
+                })
+            }
+
+            return res.status(400).json({
+                success: true,
+                message: 'Do not have data',
+                data: ''
+            })
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: error.message,
+                data: ''
+            })
+        }
     }
 
     getAllOrder = async (req, res) => {

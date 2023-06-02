@@ -14,7 +14,7 @@ const {
 router.get('/', phieuXuatController.index)
 router.get('/getAllOrder', phieuXuatController.getAllOrderFromCustomer)
 router.get('/getDetailOrder/:id', phieuXuatController.getDetailOrder)
-router.get('/getOrderWithoutBill', verifyTokenAccountant, phieuXuatController.getAllOrderWithoutBill)
+router.get('/getOrderWithoutBill', phieuXuatController.getAllOrderWithoutBill)
 router.get('/checkInventory/:id', verifyTokenAccountant, phieuXuatController.checkInventory)
 
 
