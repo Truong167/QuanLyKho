@@ -124,27 +124,44 @@ class phieuNhapController {
     }
 
     createReceipt = async (req, res) => {
-        const id1 = 1
+        const MaNhanVien = req.id
         const {id} = req.params
-        const {NgayNhap, TrangThai, MatHang} = req.body
+        const {NgayNhap, TrangThai} = req.body
         try {
-            let MatHang1 = [
-                {MaMatHang: 1, SoLuong: 10, DonGia: 100000},
-                {MaMatHang: 3, SoLuong: 8, DonGia: 100000}
-            ]
-            // MatHang = JSON.parse(MatHang)
-            const result = await sequelize.transaction(async t => {
-                let receipt = await db.PhieuNhap.create({
-                    NgayNhap: NgayNhap ? NgayNhap : Date.now(),
-                    TrangThai: TrangThai,
-                    MaNhanVien: id1,
-                    MaDonDH: id
-                }, {fields: ["NgayNhap", "TrangThai", "MaNhanVien", "MaDonDH"]}, {transaction: t})
-                MatHang = MatHang.map(item => {
-                    item.MaPhieuNhap = receipt.MaPhieuNhap
-                    return item
-                })
-                await db.ChiTietPhieuNhap.bulkCreate(MatHang, { transaction: t })
+            await db.PhieuNhap.create({
+                NgayNhap: NgayNhap ? NgayNhap : Date.now(),
+                TrangThai: TrangThai,
+                MaNhanVien: MaNhanVien,
+                MaDonDH: id
+            })
+            res.status(200).json({
+                success: true, 
+                message: 'Successfully added',
+                data: result
+            })
+        } catch (error) {
+            res.status(500).json({
+                success: false, 
+                message: error.message, 
+                data: ""
+            })
+        }
+    }
+
+    createDetailReceipt = async (req, res) => {
+        const {MatHang} = req.body
+        const {id} = req.params
+        try {
+            MatHang = JSON.parse(MatHang)
+            let PhieuNhap = await db.PhieuNhap.findByPk(id)
+            MatHang = MatHang.map(item => {
+                item.MaPhieuNhap = id
+                return item
+            })
+            let result = await sequelize.transaction(async t => {
+                await db.ChiTietPhieuNhap.bulkCreate(MatHang, {transaction: t})
+                PhieuNhap.TrangThai = true
+                await PhieuNhap.save({transaction: t})
             })
             res.status(200).json({
                 success: true, 
@@ -201,6 +218,7 @@ class phieuNhapController {
             })
         }
     }
+
     
 }
 

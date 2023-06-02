@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const {formatDate} = require('../middlewares/utils/formatDate')
 module.exports = (sequelize, DataTypes) => {
   class DonDatHangXuat extends Model {
     /**
@@ -13,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       DonDatHangXuat.belongsTo(models.NhanVien, {foreignKey: 'MaNhanVien'})
       DonDatHangXuat.belongsTo(models.KhachHang, {foreignKey: 'MaKhachHang'})
+      DonDatHangXuat.hasOne(models.PhieuXuat, {foreignKey: 'MaDonDHX'})
     }
   }
   DonDatHangXuat.init({

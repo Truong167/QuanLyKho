@@ -15,7 +15,10 @@ module.exports = (sequelize, DataTypes) => {
       MatHang.belongsTo(models.LoaiHang, {foreignKey: "MaLoaiHang"})
       MatHang.belongsTo(models.NhaCungCap, {foreignKey: "MaNhaCC"})
       MatHang.hasMany(models.ChiTietDonDatHang, {foreignKey: 'MaMatHang'})
+      MatHang.hasMany(models.ChiTietDonDatHangXuat, {foreignKey: 'MaMatHang'})
       MatHang.hasMany(models.ChiTietPhieuNhap, {foreignKey: 'MaMatHang'})
+      MatHang.hasMany(models.ChiTietPhieuXuat, {foreignKey: 'MaMatHang'})
+
     }
   }
   MatHang.init({
@@ -26,13 +29,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     TenMatHang: DataTypes.STRING,
     SoLuongTon: DataTypes.INTEGER,
-    NgaySx: {
-      type: DataTypes.DATE,
-      get: function() {
-        return formatDate(this.getDataValue('NgaySx'))
-      }
-    },
-    NoiSx: DataTypes.STRING,
     isActive: DataTypes.BOOLEAN,
     MaLoaiHang: DataTypes.INTEGER,
     MaNhaCC: DataTypes.INTEGER

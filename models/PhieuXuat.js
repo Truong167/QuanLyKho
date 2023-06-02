@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const {formatDate} = require('../middlewares/utils/formatDate')
 module.exports = (sequelize, DataTypes) => {
   class PhieuXuat extends Model {
     /**
@@ -10,7 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      PhieuXuat.belongsTo(models.NhanVien, {foreignKey: 'MaNhanVienn'})
+      PhieuXuat.belongsTo(models.NhanVien, {foreignKey: 'MaNhanVien'})
+      PhieuXuat.hasMany(models.ChiTietPhieuXuat, {foreignKey: 'MaPhieuXuat'})
+      PhieuXuat.belongsTo(models.DonDatHangXuat, {foreignKey: 'MaDonDHX'})
+      PhieuXuat.hasOne(models.HoaDonXuat, {foreignKey: 'MaPhieuXuat'})
     }
   }
   PhieuXuat.init({
@@ -29,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     LoaiPX: DataTypes.STRING,
     LyDoXuat: DataTypes.STRING,
     MaNhanVien: DataTypes.INTEGER,
-    MaDonDH: DataTypes.INTEGER,
+    MaDonDHX: DataTypes.INTEGER,
     
   }, {
     sequelize,

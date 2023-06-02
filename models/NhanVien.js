@@ -31,7 +31,8 @@ module.exports = (sequelize, DataTypes) => {
     DiaChi: DataTypes.STRING,
     SDT: DataTypes.STRING,
     isActive: DataTypes.BOOLEAN,
-    MaBoPhan: DataTypes.INTEGER
+    MaBoPhan: DataTypes.INTEGER,
+    Role: DataTypes.STRING
   }, {
     sequelize,
     freezeTableName: true,
