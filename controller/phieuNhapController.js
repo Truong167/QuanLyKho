@@ -61,7 +61,12 @@ class phieuNhapController {
                         attributes: {exclude: ['createdAt', 'updatedAt']}
                     }
                 ],
-                attributes: ["MaDonDH", "NgayDatHang"]
+                attributes: [
+                    "MaDonDH", "NgayDatHang",
+                    [sequelize.literal(` (SELECT CASE WHEN EXISTS 
+                        (Select * from "PhieuNhap" where "MaDonDH" = "DonDatHang"."MaDonDH") 
+                        then True else False end DaTaoPhieu) `), "DaTaoPhieu"]
+                ]
             })
             if(order && order.length > 0){
                 // order.map(item => {
@@ -179,7 +184,7 @@ class phieuNhapController {
             res.status(200).json({
                 success: true, 
                 message: 'Successfully added',
-                data: result
+                data: ''
             })
         } catch (error) {
             res.status(500).json({

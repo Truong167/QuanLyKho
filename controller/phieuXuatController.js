@@ -61,7 +61,12 @@ class phieuXuatController {
                         attributes: {exclude: ['createdAt', 'updatedAt']}
                     }
                 ],
-                attributes: ["MaDonDHX", "NgayDatHang"]
+                attributes: [
+                    "MaDonDHX", "NgayDatHang", 
+                    [sequelize.literal(` (SELECT CASE WHEN EXISTS 
+                    (Select * from "PhieuXuat" where "MaDonDHX" = "DonDatHangXuat"."MaDonDHX") 
+                    then True else False end DaTaoPhieu) `), "DaTaoPhieu"]
+                ]
             })
             if(order && order.length > 0){
                 // order.map(item => {
