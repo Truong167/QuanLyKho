@@ -13,7 +13,7 @@ class authController {
         try {
             const user = await db.NhanVien.findByPk(req.id)
             if(!user) 
-            return res.status(400).json({
+            return res.status(401).json({
                 success: false, 
                 message: 'User not found', 
                 data: ''

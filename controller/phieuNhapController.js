@@ -175,6 +175,7 @@ class phieuNhapController {
         const {id} = req.params
         const {NgayNhap, TrangThai} = req.body
         try {
+            console.log(req.body)
             await db.PhieuNhap.create({
                 NgayNhap: NgayNhap ? NgayNhap : Date.now(),
                 TrangThai: TrangThai,
