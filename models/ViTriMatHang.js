@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const {formatDate} = require('../middlewares/utils/formatDate')
 module.exports = (sequelize, DataTypes) => {
   class ViTriMatHang extends Model {
     /**
@@ -10,7 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      
+      ViTriMatHang.belongsTo(models.OHang, {foreignKey: 'MaO'})
+      ViTriMatHang.belongsTo(models.MatHang, {foreignKey: 'MaMatHang'})
     }
   }
   ViTriMatHang.init({

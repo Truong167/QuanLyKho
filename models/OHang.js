@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       OHang.belongsTo(models.KeHang, {foreignKey: 'MaKe'})
+      OHang.hasMany(models.ViTriMatHang, {foreignKey: 'MaO'})
     }
   }
   OHang.init({

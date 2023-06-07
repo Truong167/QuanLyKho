@@ -290,6 +290,63 @@ class phieuXuatController {
             })
         }
     }
+
+    getAllDeliveryBill = async (req, res) => {
+        try {
+            const receipt = await db.PhieuXuat.findAll({
+                attributes: {exclude: ["createdAt", "updatedAt"]}
+            })
+            if(receipt && receipt.length > 0 ){
+                return res.status(200).json({
+                    success: true, 
+                    message: 'Successfully get data',
+                    data: receipt
+                })
+            }
+            return res.status(400).json({
+                success: true, 
+                message: 'No data',
+                data: ''
+            })
+        } catch (error) {
+            res.status(500).json({
+                success: false, 
+                message: error,
+                data: ''
+            })
+        }
+    }
+
+    getDetailDeliveryBill = async (req, res) => {
+        const {id} = req.params
+        try {
+            const dt = await db.ChiTietPhieuXuat.findAll({
+                where: {
+                    MaPhieuXuat: id
+                },
+                attributes: {exclude: ["createdAt", "updatedAt"]}
+            })
+            if(dt && dt.length > 0 ){
+                return res.status(200).json({
+                    success: true, 
+                    message: 'Successfully get data',
+                    data: dt
+                })
+            }
+
+            return res.status(400).json({
+                success: true, 
+                message: 'No data',
+                data: ''
+            })
+        } catch (error) {
+            res.status(500).json({
+                success: false, 
+                message: error,
+                data: ''
+            })
+        }
+    }
 }
 
 

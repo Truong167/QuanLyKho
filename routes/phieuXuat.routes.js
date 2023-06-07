@@ -16,6 +16,10 @@ router.get('/getAllOrder', phieuXuatController.getAllOrderFromCustomer)
 router.get('/getDetailOrder/:id', phieuXuatController.getDetailOrder)
 router.get('/getOrderWithoutBill', phieuXuatController.getAllOrderWithoutBill)
 router.get('/checkInventory/:id', verifyTokenAccountant, phieuXuatController.checkInventory)
+router.get('/getDeliveryBill', phieuXuatController.getAllDeliveryBill)
+router.get('/getDetailDeliveryBill/:id', phieuXuatController.getDetailDeliveryBill)
+
+
 
 
 router.post('/createDeliveryBill/:id', verifyTokenStoker, phieuXuatController.createDeliveryBill)

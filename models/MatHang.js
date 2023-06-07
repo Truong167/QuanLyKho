@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       MatHang.hasMany(models.ChiTietDonDatHangXuat, {foreignKey: 'MaMatHang'})
       MatHang.hasMany(models.ChiTietPhieuNhap, {foreignKey: 'MaMatHang'})
       MatHang.hasMany(models.ChiTietPhieuXuat, {foreignKey: 'MaMatHang'})
+      MatHang.hasMany(models.ViTriMatHang, {foreignKey: 'MaMatHang'})
 
     }
   }
