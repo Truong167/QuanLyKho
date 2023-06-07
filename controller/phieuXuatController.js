@@ -307,7 +307,11 @@ class phieuXuatController {
                             [sequelize.literal(` (SELECT CASE WHEN EXISTS 
                                 (Select * from "PhieuXuat" where "MaDonDHX" = "DonDatHangXuat"."MaDonDHX") 
                                 then True else False end DaTaoPhieu) `), "DaTaoPhieu"]
-                        ]
+                        ],
+                        include: {
+                            model: db.KhachHang,
+                            attributes: {exclude: ["createdAt", "updatedAt"]}
+                        }
                     }
                 ]
             })
