@@ -294,7 +294,22 @@ class phieuXuatController {
     getAllDeliveryBill = async (req, res) => {
         try {
             const receipt = await db.PhieuXuat.findAll({
-                attributes: {exclude: ["createdAt", "updatedAt"]}
+                attributes: {exclude: ["createdAt", "updatedAt", "MaNhanVien", "MaDonDHX"]},
+                include: [
+                    {
+                        model: db.NhanVien,
+                        attributes: {exclude: ["createdAt", "updatedAt"]}
+                    },
+                    {
+                        model: db.DonDatHangXuat,
+                        attributes: [
+                            "MaDonDHX", "NgayDatHang",
+                            [sequelize.literal(` (SELECT CASE WHEN EXISTS 
+                                (Select * from "PhieuXuat" where "MaDonDHX" = "DonDatHangXuat"."MaDonDHX") 
+                                then True else False end DaTaoPhieu) `), "DaTaoPhieu"]
+                        ]
+                    }
+                ]
             })
             if(receipt && receipt.length > 0 ){
                 return res.status(200).json({
