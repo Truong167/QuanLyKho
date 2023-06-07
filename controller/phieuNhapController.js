@@ -176,14 +176,14 @@ class phieuNhapController {
         const {NgayNhap, TrangThai} = req.body
         try {
             const check = await db.PhieuNhap.findAll({where: {MaDonDH: id}})
-            if(check) {
+            if(check && check.length > 0) {
                 return res.status(405).json({
                     success: false, 
                     message: 'Đã tạo phiếu nhập',
                     data: ''
                 })
             }
-            await db.PhieuNhap.create({
+            let rs = await db.PhieuNhap.create({
                 NgayNhap: NgayNhap ? NgayNhap : Date.now(),
                 TrangThai: TrangThai,
                 MaNhanVien: MaNhanVien,
