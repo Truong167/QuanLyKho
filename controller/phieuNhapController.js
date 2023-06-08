@@ -246,10 +246,10 @@ class phieuNhapController {
         const {id} = req.params
         try {
             console.log(req.body)
-            MatHang = JSON.parse(MatHang)
+            // MatHang = JSON.parse(MatHang)
             let PhieuNhap = await db.PhieuNhap.findByPk(id)
             MatHang = MatHang.map(item => {
-                console.log(item)
+                console.log('lalla' + item)
                 item.MaMatHang = item.MatHang.MaMatHang
                 item.MaPhieuNhap = id
                 delete item["MatHang"]
