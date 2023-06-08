@@ -197,6 +197,14 @@ class phieuXuatController {
         const {id} = req.params
         const {NgayXuat, DaNhanHang, LyDoXuat, LoaiPX} = req.body
         try {
+            const check = await db.PhieuXuat.findAll({where: {MaDonDHX: id}})
+            if(check && check.length > 0) {
+                return res.status(405).json({
+                    success: false, 
+                    message: 'Đã tạo phiếu xuất',
+                    data: ''
+                })
+            }
             await db.PhieuXuat.create({
                 DaNhanHang: DaNhanHang && DaNhanHang,
                 NgayXuat: NgayXuat ? NgayXuat : Date.now(),
