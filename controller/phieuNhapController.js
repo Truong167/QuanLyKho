@@ -242,7 +242,7 @@ class phieuNhapController {
     }
 
     createDetailReceipt = async (req, res) => {
-        const {MatHang} = req.body
+        let {MatHang} = req.body
         const {id} = req.params
         try {
             console.log(MatHang)
