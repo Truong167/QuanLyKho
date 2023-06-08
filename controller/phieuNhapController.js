@@ -245,8 +245,8 @@ class phieuNhapController {
         const {MatHang} = req.body
         const {id} = req.params
         try {
-            MatHang = JSON.parse(MatHang)
             console.log(MatHang)
+            MatHang = JSON.parse(MatHang)
             let PhieuNhap = await db.PhieuNhap.findByPk(id)
             MatHang = MatHang.map(item => {
                 console.log('lalla' + item)
