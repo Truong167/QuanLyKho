@@ -38,7 +38,6 @@ const verifyTokenEmpOrStoker = async (req, res, next) => {
         const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
         req.id = decoded.id
         const role = await db.NhanVien.findByPk(decoded.id)
-        console.log(role)
         if(role.Role == 'NV' || role.Role == 'TK'){
             next()
             return

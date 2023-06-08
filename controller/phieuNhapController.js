@@ -249,7 +249,10 @@ class phieuNhapController {
             MatHang = JSON.parse(MatHang)
             let PhieuNhap = await db.PhieuNhap.findByPk(id)
             MatHang = MatHang.map(item => {
+                console.log(item)
+                item.MaMatHang = item.MatHang.MaMatHang
                 item.MaPhieuNhap = id
+                delete item["MatHang"]
                 return item
             })
             let result = await sequelize.transaction(async t => {
