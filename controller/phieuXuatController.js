@@ -7,6 +7,44 @@ class phieuXuatController {
         res.send('Phiếu xuất hàng')
     }
 
+    getOrderById = async (req, res) => {
+        const {id} = req.params
+        try {
+            const order = await db.DonDatHangXuat.findByPk(id, {
+                include: [
+                    {
+                        model: db.NhanVien,
+                        attributes: {exclude: ["createdAt", "updatedAt"]}
+                    },
+                    {
+                        model: db.KhachHang,
+                        attributes: {exclude: ["createdAt", "updatedAt"]}
+                    }
+                ],
+                attributes: ["NgayDatHang", "MaDonDHX"]
+            })
+
+            if(order){
+                return res.status(200).json({
+                    success: true,
+                    message: 'Successfully get data',
+                    data: order
+                })
+            }
+            return res.status(400).json({
+                success: true,
+                message: 'Do not have data',
+                data: ''
+            })
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: error.message,
+                data: ''
+            })
+        }
+    }
+
     getAllOrderWithoutBill = async (req, res) => {
         try {
             const bill = await db.HoaDonXuat.findAll()
@@ -351,7 +389,11 @@ class phieuXuatController {
                 where: {
                     MaPhieuXuat: id
                 },
-                attributes: {exclude: ["createdAt", "updatedAt"]}
+                include: {
+                    model: db.MatHang,
+                    attributes: {exclude: ["createdAt", "updatedAt"]}
+                },
+                attributes: {exclude: ["createdAt", "updatedAt", "MaMatHang"]}
             })
             if(dt && dt.length > 0 ){
                 return res.status(200).json({

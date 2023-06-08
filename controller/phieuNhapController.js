@@ -8,6 +8,44 @@ class phieuNhapController {
         res.send('Phiếu nhập')
     }
 
+    getOrderById = async (req, res) => {
+        const {id} = req.params
+        try {
+            const order = await db.DonDatHang.findByPk(id, {
+                include: [
+                    {
+                        model: db.NhanVien,
+                        attributes: {exclude: ["createdAt", "updatedAt"]}
+                    },
+                    {
+                        model: db.NhaCungCap,
+                        attributes: {exclude: ["createdAt", "updatedAt"]}
+                    }
+                ],
+                attributes: ["NgayDatHang", "MaDonDH"]
+            })
+
+            if(order){
+                return res.status(200).json({
+                    success: true,
+                    message: 'Successfully get data',
+                    data: order
+                })
+            }
+            return res.status(400).json({
+                success: true,
+                message: 'Do not have data',
+                data: ''
+            })
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: error.message,
+                data: ''
+            })
+        }
+    }
+
     getOrderWithoutBill = async (req, res) => {
         try {
             const bill = await db.HoaDonNhap.findAll()
@@ -326,7 +364,11 @@ class phieuNhapController {
                 where: {
                     MaPhieuNhap: id
                 },
-                attributes: {exclude: ["createdAt", "updatedAt"]}
+                include: {
+                    model: db.MatHang,
+                    attributes: {exclude: ["createdAt", "updatedAt"]}
+                },
+                attributes: {exclude: ["createdAt", "updatedAt", "MaMatHang"]}
             })
             if(dt && dt.length > 0 ){
                 return res.status(200).json({

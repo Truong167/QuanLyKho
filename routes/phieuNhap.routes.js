@@ -12,6 +12,7 @@ const {
 // http://localhost:8080/api/v1/
 
 router.get('/', phieuNhapController.index)
+router.get('/getOrder/:id', phieuNhapController.getOrderById)
 router.get('/getAllOrder', phieuNhapController.getAllOrder)
 router.get('/getDetailOrder/:id', phieuNhapController.getDetailOrder)
 router.get('/getItemsBySupplier/:id', phieuNhapController.getItemsBySupplier)
