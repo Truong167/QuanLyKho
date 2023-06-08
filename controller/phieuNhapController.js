@@ -256,7 +256,9 @@ class phieuNhapController {
                 return item
             })
             let result = await sequelize.transaction(async t => {
-                await db.ChiTietPhieuNhap.bulkCreate(MatHang, {transaction: t})
+                await db.ChiTietPhieuNhap.bulkCreate(MatHang, {
+                    updateOnDuplicate: ["MaPhieuNhap", "MaMatHang", "SoLuong", "DonGia"]
+                }, {transaction: t})
                 PhieuNhap.TrangThai = true
                 await PhieuNhap.save({transaction: t})
             })
