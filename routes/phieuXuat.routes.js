@@ -20,12 +20,11 @@ router.get('/checkInventory/:id', verifyTokenAccountant, phieuXuatController.che
 router.get('/getDeliveryBill', phieuXuatController.getAllDeliveryBill)
 router.get('/getDetailDeliveryBill/:id', phieuXuatController.getDetailDeliveryBill)
 
-
-
-
 router.post('/createDeliveryBill/:id', verifyTokenStoker, phieuXuatController.createDeliveryBill)
 router.post('/createDetailDeliveryBill/:id', verifyTokenEmpOrStoker, phieuXuatController.createDetailDeliveryBill)
 router.post('/createBill/:id', verifyTokenAccountant, phieuXuatController.createBill)
+
+router.put('/updateStatus/:id', phieuXuatController.updateStatus)
 
 
 

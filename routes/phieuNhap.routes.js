@@ -20,13 +20,11 @@ router.get('/getOrderWithoutBill', phieuNhapController.getOrderWithoutBill)
 router.get('/getReceipt', phieuNhapController.getAllReceipt)
 router.get('/getDetailReceipt/:id', phieuNhapController.getDetailReceipt)
 
-
-
-
 router.post('/createReceipt/:id', verifyTokenStoker, phieuNhapController.createReceipt)
 router.post('/createDetailReceipt/:id', verifyTokenEmpOrStoker, phieuNhapController.createDetailReceipt)
-
 router.post('/createBill/:id', verifyTokenAccountant, phieuNhapController.createBill)
+
+router.put('/updateStatus/:id', phieuNhapController.updateStatus)
 
 
 

@@ -269,16 +269,17 @@ class phieuXuatController {
         let {MatHang} = req.body
         const {id} = req.params
         try {
-            MatHang = JSON.parse(MatHang)
-            // let PhieuNhap = await db.PhieuXuat.findByPk(id)
             MatHang = MatHang.map(item => {
+                item.MaMatHang = item.MatHang.MaMatHang
                 item.MaPhieuXuat = id
+                delete item["MatHang"]
                 return item
             })
             let result = await sequelize.transaction(async t => {
-                await db.ChiTietPhieuXuat.bulkCreate(MatHang, {transaction: t})
-                // PhieuNhap.TrangThai = true
-                // await PhieuNhap.save({transaction: t})
+                await db.ChiTietPhieuXuat.bulkCreate(MatHang, {
+                    updateOnDuplicate: ["MaPhieuXuat", "MaMatHang", "SoLuong", "DonGia"]
+                } ,{transaction: t})
+
             })
             res.status(200).json({
                 success: true, 
@@ -400,6 +401,81 @@ class phieuXuatController {
                     success: true, 
                     message: 'Successfully get data',
                     data: dt
+                })
+            }
+
+            return res.status(400).json({
+                success: true, 
+                message: 'No data',
+                data: ''
+            })
+        } catch (error) {
+            res.status(500).json({
+                success: false, 
+                message: error,
+                data: ''
+            })
+        }
+    }
+
+    updateStatus = async (req, res) => {
+        const {id} = req.params
+        const {DaNhanHang} = req.body
+        try {
+            const receipt = await db.PhieuXuat.findByPk(id)
+            let check = receipt.DaNhanHang
+            if(receipt){
+                receipt.DaNhanHang = DaNhanHang
+                receipt.save()
+                const detail = await db.ChiTietPhieuXuat.findAll({
+                    where: {
+                        MaPhieuXuat: id
+                    },
+                    attributes: ["MaMatHang", "SoLuong"]
+                })
+
+                if(detail && detail.length > 0) {
+                    const productId = detail.map(item => {
+                        return item.dataValues.MaMatHang
+                    })
+                    const products = await db.MatHang.findAll({
+                        where: {
+                            MaMatHang: {
+                                [Op.in]: productId
+                            }
+                        }
+                    })
+
+
+                    let mergedArray = products.concat(detail).reduce((acc, curr) => {
+                        let index = acc.findIndex(item => item.MaMatHang === curr.MaMatHang);
+                        if (index === -1) {
+                            acc.push(curr);
+                        } else {
+                            acc[index].SoLuongTon -= curr.SoLuong;
+                        }
+                        return acc;
+                    }, []);
+
+                    mergedArray = mergedArray.map(item => {
+                        return item.dataValues
+                    })
+
+                    if(!check){
+                        await db.MatHang.bulkCreate(mergedArray, {updateOnDuplicate: ["MaMatHang", "TenMatHang", "SoLuongTon", "isActive", "MaLoaiHang", "MaNhaCC"]})
+                    }
+
+                    return res.status(200).json({
+                        success: true, 
+                        message: 'Successfully update data',
+                        data: ''
+                    })
+                }
+
+                return res.status(406).json({
+                    success: true, 
+                    message: 'Chưa tạo chi tiết phiếu nhập/xuất',
+                    data: ''
                 })
             }
 
