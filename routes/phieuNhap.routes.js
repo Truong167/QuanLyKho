@@ -24,7 +24,7 @@ router.post('/createReceipt/:id', verifyTokenStoker, phieuNhapController.createR
 router.post('/createDetailReceipt/:id', verifyTokenEmpOrStoker, phieuNhapController.createDetailReceipt)
 router.post('/createBill/:id', verifyTokenAccountant, phieuNhapController.createBill)
 
-router.put('/updateStatus/:id', phieuNhapController.updateStatus)
+router.put('/updateStatus/:id', verifyTokenStoker, phieuNhapController.updateStatus)
 
 
 

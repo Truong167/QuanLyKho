@@ -24,7 +24,7 @@ router.post('/createDeliveryBill/:id', verifyTokenStoker, phieuXuatController.cr
 router.post('/createDetailDeliveryBill/:id', verifyTokenEmpOrStoker, phieuXuatController.createDetailDeliveryBill)
 router.post('/createBill/:id', verifyTokenAccountant, phieuXuatController.createBill)
 
-router.put('/updateStatus/:id', phieuXuatController.updateStatus)
+router.put('/updateStatus/:id', verifyTokenStoker, phieuXuatController.updateStatus)
 
 
 
