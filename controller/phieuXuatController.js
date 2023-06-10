@@ -230,6 +230,7 @@ class phieuXuatController {
         const {id} = req.params
         const {NgayXuat, DaNhanHang, LyDoXuat, LoaiPX} = req.body
         try {
+            console.log(NgayXuat, DaNhanHang, LyDoXuat, LoaiPX)
             const check = await db.PhieuXuat.findAll({where: {MaDonDHX: id}})
             if(check && check.length > 0) {
                 return res.status(405).json({
@@ -254,7 +255,7 @@ class phieuXuatController {
         } catch (error) {
             res.status(500).json({
                 success: false,
-                message: error,
+                message: error.message,
                 data: ''
             })
         }
