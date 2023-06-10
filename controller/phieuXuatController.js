@@ -226,7 +226,7 @@ class phieuXuatController {
     }
 
     createDeliveryBill = async (req, res) => {
-        const {MaNhanVien} = req.id
+        const MaNhanVien = req.id
         const {id} = req.params
         const {NgayXuat, DaNhanHang, LyDoXuat, LoaiPX} = req.body
         try {
