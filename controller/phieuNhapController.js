@@ -146,17 +146,12 @@ class phieuNhapController {
                 },
                 include: {
                     model: db.MatHang,
-                    attributes: ["TenMatHang"]
+                    attributes: {exclude: ["createdAt", "updatedAt"]}
                 },
-                attributes: {exclude: ["createdAt", "updatedAt"]},
+                attributes: {exclude: ["createdAt", "updatedAt", "MaMatHang"]},
             })
 
             if(detail && detail.length > 0){
-                detail.map(item => {
-                    item.dataValues.TenMatHang = item.dataValues.MatHang.dataValues.TenMatHang
-                    delete item.dataValues["MatHang"]
-                    return item
-                })
                 return res.status(200).json({
                     success: true,
                     message: 'Successfully get data',
