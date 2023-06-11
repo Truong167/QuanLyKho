@@ -179,7 +179,7 @@ class matHangController {
                         [Op.iLike]: `%${q}%`
                     }
                 },
-                attributes: ["TenMatHang"]
+                attributes: {exclude: ["createdAt", "updatedAt"]}
             })
             if(position && position.length > 0){
                 return res.status(200).json({
