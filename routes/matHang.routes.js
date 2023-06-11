@@ -15,9 +15,12 @@ router.get('/', matHangController.index)
 router.get('/getAllProduct', matHangController.getAllProduct)
 router.get('/getAllBox', matHangController.getBox)
 router.get('/searchById/:id', matHangController.searchById)
+router.get('/searchById', matHangController.searchById1)
 router.get('/searchByName', matHangController.searchByName)
 router.get('/searchByName1', matHangController.searchByName1)
 router.get('/getProductByName/:name', matHangController.getProductByName)
+router.get('/getProductById/:id', matHangController.getProductById)
+
 
 
 
