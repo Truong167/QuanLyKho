@@ -169,6 +169,68 @@ class matHangController {
             })
         }
     }
+
+    searchByName1 = async (req, res) => {
+        const {q} = req.query
+        try {
+            let position = await db.MatHang.findAll({
+                where: {
+                    TenMatHang: {
+                        [Op.iLike]: `%${q}%`
+                    }
+                },
+                attributes: ["TenMatHang"]
+            })
+            if(position && position.length > 0){
+                return res.status(200).json({
+                    success: true,
+                    message: 'Successfully search data',
+                    data: position
+                })
+            }
+            return res.status(400).json({
+                success: true,
+                message: 'No data',
+                data: ''
+            })
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: error.message,
+                data: ''
+            })
+        }
+    }
+
+    getProductByName = async (req, res) => {
+        const TenMatHang = req.params.name
+        try {
+            const product = await db.MatHang.findAll({
+                where: {
+                    TenMatHang: TenMatHang
+                }
+            })
+
+            if(product && product.length > 0){
+                return res.status(200).json({
+                    success: true,
+                    message: 'Successfully search data',
+                    data: product
+                })
+            }
+            return res.status(400).json({
+                success: true,
+                message: 'No data',
+                data: ''
+            })
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: error.message,
+                data: ''
+            })
+        }
+    }
 }
 
 
