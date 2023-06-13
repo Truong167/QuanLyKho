@@ -24,8 +24,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   MatHang.init({
     MaMatHang: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+      type: DataTypes.STRING,
       primaryKey: true,
     },
     TenMatHang: DataTypes.STRING,
