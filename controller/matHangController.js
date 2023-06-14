@@ -90,7 +90,7 @@ class matHangController {
             await db.ViTriMatHang.create({
                 MaO: MaO,
                 MaMatHang: MaMatHang,
-                SKU: Date.now(),
+                SKU: MaMatHang + MaO,
                 NgayLenKe: Date.now(),
                 SoLuongBanDau: SoLuong,
                 SoLuongHienTai: SoLuong
