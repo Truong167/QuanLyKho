@@ -293,6 +293,60 @@ class matHangController {
             })
         }
     }
+
+    checkProductNotInBox = async (req, res) => {
+        try {
+            let products = await db.MatHang.findAll({
+                attributes: {exclude: ["createdAt", "updatedAt"]}
+            })
+
+            let productsInBox = await db.ViTriMatHang.findAll({
+                attributes: [
+                    "MaMatHang",
+                    [sequelize.fn('SUM', sequelize.col('SoLuongHienTai')), 'SoLuong']
+                ],
+                group: ['MaMatHang']
+            })
+
+            let mergedArray = products.concat(productsInBox).reduce((acc, curr) => {
+                let index = acc.findIndex(item => item.MaMatHang === curr.MaMatHang);
+                if (index === -1) {
+                    curr.dataValues.SoLuongChuaLenKe = curr.dataValues.SoLuongTon
+                    acc.push(curr);
+                } else {
+                    acc[index].dataValues.SoLuongChuaLenKe = acc[index].dataValues.SoLuongTon - curr.dataValues.SoLuong;
+                }
+                return acc;
+            }, []);
+
+            let filterArr = mergedArray.filter(({SoLuongTon}) => SoLuongTon > 0)
+
+            filterArr = filterArr.map(item => {
+                item.dataValues.MatHang = {...item.dataValues}
+                item.dataValues.SoLuongChuaLenKe = item.dataValues.SoLuongChuaLenKe
+                delete item.dataValues.MaMatHang
+                delete item.dataValues.TenMatHang
+                delete item.dataValues.SoLuongTon
+                delete item.dataValues.isActive
+                delete item.dataValues.MaNhaCC
+                delete item.dataValues.MaLoaiHang
+                delete item.dataValues.MatHang.SoLuongChuaLenKe
+                return item
+            })
+            
+            return res.status(200).json({
+                success: true,
+                message: 'Successfully search data',
+                data: filterArr
+            })
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: error.message,
+                data: ''
+            })
+        }
+    }
 }
 
 

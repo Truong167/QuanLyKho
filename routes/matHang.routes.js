@@ -20,6 +20,7 @@ router.get('/searchByName', matHangController.searchByName)
 router.get('/searchByName1', matHangController.searchByName1)
 router.get('/getProductByName/:name', matHangController.getProductByName)
 router.get('/getProductById/:id', matHangController.getProductById)
+router.get('/getProductNotInBox', matHangController.checkProductNotInBox)
 
 
 
