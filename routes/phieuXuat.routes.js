@@ -19,10 +19,12 @@ router.get('/getOrderWithoutBill', phieuXuatController.getAllOrderWithoutBill)
 router.get('/checkInventory/:id', verifyTokenAccountant, phieuXuatController.checkInventory)
 router.get('/getDeliveryBill', phieuXuatController.getAllDeliveryBill)
 router.get('/getDetailDeliveryBill/:id', phieuXuatController.getDetailDeliveryBill)
+router.get('/getDeliveriesNotComplete', phieuXuatController.getDeliveryNotComplete)
 
 router.post('/createDeliveryBill/:id', verifyTokenStoker, phieuXuatController.createDeliveryBill)
 router.post('/createDetailDeliveryBill/:id', verifyTokenEmpOrStoker, phieuXuatController.createDetailDeliveryBill)
 router.post('/createBill/:id', verifyTokenAccountant, phieuXuatController.createBill)
+router.delete('/delete/:id', verifyTokenStoker, phieuXuatController.deleteDelivery)
 
 router.put('/updateStatus/:id', verifyTokenStoker, phieuXuatController.updateStatus)
 

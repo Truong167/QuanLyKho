@@ -467,6 +467,66 @@ class phieuNhapController {
             })
         }
     }
+
+    getReceiptNotComplete = async (req, res) => {
+        try {
+            let receipts = await db.PhieuNhap.findAll({
+                where: {
+                    TrangThai: false
+                }
+            })
+
+            if(receipts && receipts.length > 0) {
+                return res.status(200).json({
+                    success: true, 
+                    message: 'Successfully get data',
+                    data: receipts
+                })
+            }
+
+            return res.status(400).json({
+                success: true, 
+                message: 'No data',
+                data: ''
+            })
+        } catch (error) {
+            res.status(500).json({
+                success: false, 
+                message: error.message,
+                data: ''
+            })
+        }
+    }
+
+    deleteReceipt = async (req, res) => {
+        let MaPhieuNhap = req.params.id
+        try {
+            await sequelize.transaction(async t => {
+                await db.ChiTietPhieuNhap.destroy({
+                    where: {
+                        MaPhieuNhap: MaPhieuNhap
+                    }
+                }, {transaction: t})
+                await db.PhieuNhap.destroy({
+                    where: {
+                        MaPhieuNhap: MaPhieuNhap
+                    }
+                }, {transaction: t})
+            })
+            return res.status(200).json({
+                success: true, 
+                message: 'Successfully delete data',
+                data: ''
+            })
+
+        } catch (error) {
+            res.status(500).json({
+                success: false, 
+                message: error.message,
+                data: ''
+            })
+        }
+    }
     
 }
 

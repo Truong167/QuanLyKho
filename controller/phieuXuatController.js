@@ -495,6 +495,65 @@ class phieuXuatController {
             })
         }
     }
+
+    getDeliveryNotComplete = async (req, res) => {
+        try {
+            const deliveries = await db.PhieuXuat.findAll({
+                where: {
+                    DaNhanHang: false
+                }
+            })
+            
+            if(deliveries && deliveries.length > 0) {
+                return res.status(200).json({
+                    success: true, 
+                    message: 'Successfully get data',
+                    data: deliveries
+                })
+            }
+
+            return res.status(400).json({
+                success: true, 
+                message: 'No data',
+                data: ''
+            })
+        } catch (error) {
+            res.status(500).json({
+                success: false, 
+                message: error,
+                data: ''
+            })
+        }
+    }
+
+    deleteDelivery = async (req, res) => {
+        const MaPhieuXuat = req.params.id
+        try {
+            await sequelize.transaction(async t => {
+                await db.ChiTietPhieuXuat.destroy({
+                    where: {
+                        MaPhieuXuat: MaPhieuXuat
+                    }
+                }, {transaction: t})
+                await db.PhieuXuat.destroy({
+                    where: {
+                        MaPhieuXuat: MaPhieuXuat
+                    }
+                }, {transaction: t})
+            })
+            return res.status(200).json({
+                success: true, 
+                message: 'Successfully delete data',
+                data: ''
+            })
+        } catch (error) {
+            res.status(500).json({
+                success: false, 
+                message: error,
+                data: ''
+            })
+        }
+    }
 }
 
 

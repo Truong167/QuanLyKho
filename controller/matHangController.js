@@ -319,7 +319,7 @@ class matHangController {
                 return acc;
             }, []);
 
-            let filterArr = mergedArray.filter(({SoLuongTon}) => SoLuongTon > 0)
+            let filterArr = mergedArray.filter(({SoLuongChuaLenKe}) => SoLuongChuaLenKe > 0)
 
             filterArr = filterArr.map(item => {
                 item.dataValues.MatHang = {...item.dataValues}
