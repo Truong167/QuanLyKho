@@ -37,18 +37,18 @@ class authController {
         try {
             let account = await db.ThongTinDangNhap.findByPk(TaiKhoan)
             if(!account)
-            return res.status(424).json({
-                success: false,
-                message: 'Account does not exist',
-                data: ""
-            })
+                return res.status(424).json({
+                    success: false,
+                    message: 'Account does not exist',
+                    data: ""
+                })
             const pass = await bcrypt.compare(MatKhau, account.MatKhau)
             if(!pass)
-            return  res.status(425).json({
-                success: false,
-                message: 'Password do not match',
-                data: ""
-            })
+                return res.status(425).json({
+                    success: false,
+                    message: 'Password do not match',
+                    data: ""
+                })
 
             const accessToken = jwt.sign({id: account.MaNhanVien}, process.env.ACCESS_TOKEN_SECRET, {
                 expiresIn: '365d'
