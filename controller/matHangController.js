@@ -308,6 +308,8 @@ class matHangController {
                 group: ['MaMatHang']
             })
 
+            
+
             let mergedArray = products.concat(productsInBox).reduce((acc, curr) => {
                 let index = acc.findIndex(item => item.MaMatHang === curr.MaMatHang);
                 if (index === -1) {
@@ -319,7 +321,8 @@ class matHangController {
                 return acc;
             }, []);
 
-            let filterArr = mergedArray.filter(({SoLuongChuaLenKe}) => SoLuongChuaLenKe > 0)
+            let filterArr = mergedArray.filter((item) => item.dataValues.SoLuongChuaLenKe > 0)
+
 
             filterArr = filterArr.map(item => {
                 item.dataValues.MatHang = {...item.dataValues}
